@@ -23,7 +23,18 @@ $( function() {
       "Scala",
       "Scheme"
     ];
+    var cache = {};
     $( "#tags" ).autocomplete({
-      source: availableTags
-    });
+      source: function (request, response) {
+           $.ajax({
+               url: "/apis/autocomplete/" + request.term,
+               dataType:'json',
+               type: "GET",
+               success: function (data) {
+                   console.log(data);
+                   response(data);
+               }
+           });
+      }
+  });
   } );
